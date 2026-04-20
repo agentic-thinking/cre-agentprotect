@@ -151,7 +151,7 @@ def evaluate(envelope: Dict[str, Any]) -> Dict[str, Any]:
     else:
         return {
             "decision": "allow",
-            "reason": f"[cre-agentprotect] {event_type} observed (post-hoc)",
+            "reason": f"{event_type} observed (post-hoc)",
         }
 
     engine = _get_engine()
@@ -159,7 +159,7 @@ def evaluate(envelope: Dict[str, Any]) -> Dict[str, Any]:
         result = engine.classify(agt_type, agt_params)
     except Exception as exc:
         logger.exception("AGT classify failed")
-        return {"decision": "allow", "reason": "[cre-agentprotect] AGT classify error"}
+        return {"decision": "allow", "reason": "AGT classify error"}
 
     category = getattr(result, "category", None)
     confidence = float(getattr(result, "confidence", 0.0))
@@ -173,14 +173,14 @@ def evaluate(envelope: Dict[str, Any]) -> Dict[str, Any]:
         return {
             "decision": "deny",
             "reason": (
-                f"[cre-agentprotect] AGT classified as {cat_name} "
+                f"AGT classified as {cat_name} "
                 f"(confidence {confidence:.2f}): {explanation}".strip()
             ),
         }
 
     return {
         "decision": "allow",
-        "reason": f"[cre-agentprotect] AGT clean ({cat_name} {confidence:.2f})",
+        "reason": f"AGT clean ({cat_name} {confidence:.2f})",
     }
 
 
@@ -213,7 +213,7 @@ class _Handler(BaseHTTPRequestHandler):
     def _deny_401(self) -> None:
         body = json.dumps({
             "decision": "deny",
-            "reason": "[cre-agentprotect] unauthorised",
+            "reason": "unauthorised",
         }).encode("utf-8")
         self.send_response(401)
         self.send_header("Content-Type", "application/json")
@@ -233,7 +233,7 @@ class _Handler(BaseHTTPRequestHandler):
             verdict = evaluate(envelope)
         except Exception as exc:
             logger.exception("[cre-agentprotect] handler error")
-            verdict = {"decision": "allow", "reason": "[cre-agentprotect] internal error"}
+            verdict = {"decision": "allow", "reason": "internal error"}
         # Echo event_id in response (HookBus correlates request/response by id)
         verdict["event_id"] = event_id
         verdict.setdefault("subscriber", "cre-agentprotect")
