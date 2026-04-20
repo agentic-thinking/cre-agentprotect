@@ -90,6 +90,21 @@ Then add it to `subscribers.yaml`:
 | `PostToolUse` | Allows + observes |
 | Other | Allows |
 
+## Policy rules
+
+CRE-AgentProtect calls AGT's `SemanticPolicyEngine()` with its default sample rules (regex patterns hardcoded in `agent_os/semantic_policy.py`, installed via `agent-os-kernel`). Coverage includes `rm -rf`, `curl | sh`, `DROP TABLE`, `sudo`, `chmod 777`, and similar common threat patterns across seven intent categories (`DESTRUCTIVE_DATA`, `DATA_EXFILTRATION`, `PRIVILEGE_ESCALATION`, `SYSTEM_MODIFICATION`, `CODE_EXECUTION`, `NETWORK_ACCESS`, `DATA_READ` / `DATA_WRITE`).
+
+For richer coverage (prompt injection, PII detection, SQL safety, MCP security, etc.), Microsoft ships additional YAML policy files at [microsoft/agent-governance-toolkit/examples/policies](https://github.com/microsoft/agent-governance-toolkit/tree/main/examples/policies):
+
+- [`semantic-policy.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/semantic-policy.yaml) — default reference policy
+- [`prompt-injection-safety.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/prompt-injection-safety.yaml)
+- [`pii-detection.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/pii-detection.yaml)
+- [`lotl_prevention_policy.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/lotl_prevention_policy.yaml) — living-off-the-land prevention
+- [`sql-safety.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/sql-safety.yaml)
+- [`mcp-security.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/mcp-security.yaml)
+
+Load one via `load_semantic_policy_config()`. CRE Enterprise ships curated regulated-industry policy packs (financial services, healthcare, GDPR).
+
 ## Scope
 
 For the enterprise tier, see [agenticthinking.uk](https://agenticthinking.uk).
