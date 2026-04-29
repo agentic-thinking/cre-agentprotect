@@ -26,6 +26,6 @@ ENV CRE_AGENTPROTECT_PORT=8878 CRE_AGENTPROTECT_HOST=0.0.0.0
 USER hookbus
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD python3 -c "import urllib.request,sys; r=urllib.request.urlopen('http://127.0.0.1:8878/', timeout=3); sys.exit(0 if r.status in (200,401,404) else 1)" || exit 1
+  CMD python3 -c "import urllib.request,sys; r=urllib.request.urlopen('http://127.0.0.1:8878/healthz', timeout=3); sys.exit(0 if r.status == 200 else 1)" || exit 1
 
 CMD ["python", "-m", "cre_agentprotect"]
