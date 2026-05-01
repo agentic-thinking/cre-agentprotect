@@ -1,14 +1,14 @@
-# CRE-AgentProtect
+# CRE-AgentProtect Light
 
-**Open-source HookBus adapter for Microsoft's Agent Governance Toolkit (AGT).**
+**Open-source HookBus subscriber for Microsoft's Agent Governance Toolkit (AGT).**
 
-MIT-licensed. Full source on GitHub. One Python file that translates HookBus normalised events into Microsoft AGT `SemanticPolicyEngine.classify()` calls and translates the verdicts back to HookBus responses.
+MIT-licensed. Full source on GitHub. This is the public Light package: one small adapter that translates HookBus normalised events into Microsoft AGT `SemanticPolicyEngine.classify()` calls and translates the verdicts back to HookBus responses.
 
 ---
 
 ## What this is (and what it is not)
 
-**CRE-AgentProtect is an adapter, not a fork.** Microsoft AGT is a Microsoft project, MIT-licensed by Microsoft Corporation. CRE-AgentProtect is the bridge between any HookBus publisher and AGT's `SemanticPolicyEngine`. We:
+**CRE-AgentProtect Light is an adapter, not a fork.** Microsoft AGT is a Microsoft project, MIT-licensed by Microsoft Corporation. CRE-AgentProtect Light is the bridge between any HookBus publisher and AGT's `SemanticPolicyEngine`. We:
 
 - do **not** vendor, redistribute, or modify AGT source code
 - do **not** claim any rights, patents, or copyrights in AGT
@@ -23,7 +23,7 @@ If Microsoft ships their own HookBus-compatible adapter tomorrow, use theirs. Th
 
 ## Install (60 seconds)
 
-One shell command installs CRE-AgentProtect as part of the HookBus stack, together with the bus and AgentSpend. Interactive menu lets you pick a publisher shim for your agent runtime.
+One shell command installs the public HookBus stack with CRE-AgentProtect Light. The interactive menu lets you pick a publisher shim for your agent runtime.
 
 ```bash
 curl -fsSL https://agenticthinking.uk/install.sh | bash
@@ -38,7 +38,7 @@ curl -fsSL https://agenticthinking.uk/install.sh | bash -s -- --runtime hermes
 # OpenClaw users
 curl -fsSL https://agenticthinking.uk/install.sh | bash -s -- --runtime openclaw
 
-# Bus + subscribers only, skip publisher
+# Bus + CRE-AgentProtect Light only, skip publisher
 curl -fsSL https://agenticthinking.uk/install.sh | bash -s -- --runtime skip --noninteractive
 ```
 
@@ -52,7 +52,7 @@ _Prefer not to pipe curl to bash? Inspect first:_ `curl -fsSL https://agenticthi
 
 If you prefer to see every step, or you are building an immutable / reproducible deployment, here is the full manual install.
 
-CRE-AgentProtect is designed as a subscriber on a HookBus stack. The easiest way to run it is via the HookBus quickstart, which builds this image alongside the bus and wires it as a subscriber:
+CRE-AgentProtect Light is designed as a subscriber on a HookBus stack. The easiest way to run it is via the HookBus quickstart, which runs this image alongside the bus and wires it as a subscriber:
 
 ```bash
 # Follow the HookBus quickstart:
@@ -82,7 +82,7 @@ Then add it to `subscribers.yaml`:
   events: [PreToolUse, PostToolUse, PostLLMCall]
 ```
 
-## What CRE-AgentProtect does
+## What CRE-AgentProtect Light does
 
 | Event | Behaviour |
 |---|---|
@@ -103,11 +103,13 @@ For richer coverage (prompt injection, PII detection, SQL safety, MCP security, 
 - [`sql-safety.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/sql-safety.yaml)
 - [`mcp-security.yaml`](https://github.com/microsoft/agent-governance-toolkit/blob/main/examples/policies/mcp-security.yaml)
 
-Load one via `load_semantic_policy_config()`. CRE Enterprise ships curated regulated-industry policy packs (financial services, healthcare, GDPR).
+Load one via `load_semantic_policy_config()` if you are extending the adapter yourself.
 
 ## Scope
 
-For the enterprise tier, see [agenticthinking.uk](https://agenticthinking.uk).
+This repository and container package are **CRE-AgentProtect Light** only. They do not include the enterprise dashboard, curated regulated-industry policy packs, delegated approval workflows, SLA, support, or commercial deployment bundle.
+
+For the enterprise product, see [agenticthinking.uk](https://agenticthinking.uk).
 
 ## Configuration
 

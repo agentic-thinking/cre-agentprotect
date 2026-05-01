@@ -1,12 +1,10 @@
-"""CRE-AgentProtect , Microsoft AGT adapter for HookBus.
+"""CRE-AgentProtect Light, Microsoft AGT subscriber for HookBus.
 
 Subscribes to HookBus PreToolUse / PostToolUse events. Translates them
 into AGT SemanticPolicyEngine input format, runs the engine, returns
 the verdict back to HookBus in the standard envelope.
 
-Free, MIT. Adapter only , Microsoft maintains the engine.
-
-For the enterprise tier, see agenticthinking.uk.
+Free, MIT. Adapter only; Microsoft maintains the engine.
 """
 
 from __future__ import annotations
@@ -269,10 +267,9 @@ class _Handler(BaseHTTPRequestHandler):
 def serve(host: str = "0.0.0.0", port: int = 8878) -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [cre-agentprotect] %(message)s")
     logger.info(
-        "CRE-AgentProtect v%s starting on %s:%s , AGT adapter (MIT).",
+        "CRE-AgentProtect Light v%s starting on %s:%s, AGT subscriber (MIT).",
         __version__, host, port,
     )
-    logger.info("For the enterprise tier: agenticthinking.uk")
     HTTPServer((host, port), _Handler).serve_forever()
 
 
